@@ -1,0 +1,19 @@
+.inputContainer{
+	padding:10px;
+	background-color: #fff;
+	border: 1px solid #cdcdcd; 
+	margin:4px 0px;
+}
+.bipenc-delete{
+	float: right;
+}
+.aria_upload_button{
+	float: left;
+	margin-right: 10px;
+}
+.filenameDisplay{
+	clear: right;
+  	display: inline;
+  	margin-left: 10px;
+  	font-size: 18px
+}
