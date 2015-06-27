@@ -8,18 +8,15 @@ function bipenc_admin_page(){
 
 add_action( 'admin_menu', 'bipenc_admin_page' );
 
+function bip_enc_manage_new_file($post_data){
 
-function bip_enc_admin_menu_markup(){
+	if(isset($post_data['upload-submit'])){
 
-		//Manage the new file if added.
+			if(isset($post_data['fileid'])){
 
-		if(isset($_REQUEST['upload-submit'])){
-
-			if(isset($_REQUEST['fileid'])){
-
-				$fileid 			= $_REQUEST['fileid'];
+				$fileid 			= $post_data['fileid'];
 				$fileurl 			= wp_get_attachment_url( $fileid );
-				$fileDisplayName 	= $_REQUEST['uniqueName'];
+				$fileDisplayName 	= $post_data['uniqueName'];
 				$fileDatabaseKey 	= "custom_addition_" . uniqid();
 
 					global $wpdb;
@@ -45,33 +42,56 @@ function bip_enc_admin_menu_markup(){
 			
 		}
 
-		//Manage Deletion of custom enqueue
+}
 
-		if(isset($_GET['deletemj'])){
+function bip_enc_manage_deletion($get_data){
 
-			global $wpdb;
+	if(isset($get_data['deletemj'])){
 
-			$wpdb->delete( $wpdb->prefix . 'bipenqueue', array( 'databaseKey' => $_GET['deletemj'] ) );
+		global $wpdb;
 
-		}
+		$wpdb->delete( $wpdb->prefix . 'bipenqueue', array( 'databaseKey' => $get_data['deletemj'] ) );
 
-		$enc_array = get_bip_enc_data();
+	}
 
-		if(isset($_REQUEST['main-submit'])){
+}
+
+function bip_enc_update_options($post_data){
+
+	$enc_array = get_bip_enc_data();
+
+		if(isset($post_data['main-submit'])){
 
 			foreach ($enc_array as $enc) {
 				
-				${ $enc['databaseKey'] } = $_REQUEST[ $enc['databaseKey'] ] ? '1' : '0';
+				${ $enc['databaseKey'] } = $post_data[ $enc['databaseKey'] ] ? '1' : '0';
 
 				update_option($enc['databaseKey'], ${ $enc['databaseKey'] });
 
 			}
 
-			$pure_wrap_width = $_REQUEST['pure-wrap-width'] ? $_REQUEST['pure-wrap-width'] : get_option('bip_pure_wrap_width');
+			$pure_wrap_width = $post_data['pure-wrap-width'] ? $post_data['pure-wrap-width'] : get_option('bip_pure_wrap_width');
 
 		}
+}
+
+function bip_enc_admin_menu_markup(){
+
+		//Manage the new file if added.
+
+		bip_enc_manage_new_file($_REQUEST);
+
+		//Manage Deletion of custom enqueue
+
+		bip_enc_manage_deletion($_GET);
+
+		// Update Options
+
+		bip_enc_update_options($_REQUEST);
 
 		// Load newly updated stored data
+
+		$enc_array = get_bip_enc_data();
 
 		foreach ($enc_array as $enc) {
 				
