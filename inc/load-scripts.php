@@ -1,6 +1,6 @@
 <?php
 
-function bipenc_load_styles(){
+function bipenc_load_scripts(){
 
   $scripts = get_bip_enc_data();
 
@@ -66,4 +66,4 @@ function bipenc_load_styles(){
 
 }
 
-add_action('wp_enqueue_scripts','bipenc_load_styles');
+add_action('wp_enqueue_scripts','bipenc_load_scripts');

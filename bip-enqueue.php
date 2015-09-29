@@ -9,13 +9,10 @@ Author: 		Mario Jaconelli
 Author URI:  	http://www.wpmaz.uk
 */
 
-
 include('inc/load-scripts.php');
 include('inc/admin.php');
 
-
 function bipenc_create_table(){
-
 
 	global $wpdb;
 
@@ -196,12 +193,12 @@ function get_bip_enc_data(){
 
 }
 
-add_filter('upload_mimes', 'custom_upload_mimes');
-
-function custom_upload_mimes ( $existing_mimes=array() ) {
+function custom_upload_mimes ( $existing_mimes = array() ) {
 
 	$existing_mimes['js'] = 'application/javascript';
 	$existing_mimes['css'] = 'text/css';
 
 return $existing_mimes;
 }
+
+add_filter('upload_mimes', 'custom_upload_mimes');
